@@ -145,7 +145,7 @@
         "kind": 2,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "def main():\n    load_dotenv()\n    api_key = os.environ.get(\"GEMINI_API_KEY\")\n    client = genai.Client(api_key=api_key)\n    response = client.models.generate_content(\n        model=\"gemini-2.0-flash-001\",\n        contents=\"Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum.\"\n    )\n    print(response.text)\nif __name__ == \"__main__\":",
+        "peekOfCode": "def main():\n    load_dotenv()\n    api_key = os.environ.get(\"GEMINI_API_KEY\")\n    client = genai.Client(api_key=api_key)\n    response = client.models.generate_content(\n        model=\"gemini-2.0-flash-001\",\n        contents=\"Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum.\"\n    )\n    print(response.text)\n    print(f\"Prompt tokens: {response.usage_metadata.prompt_token_count}\")",
         "detail": "main",
         "documentation": {}
     }
