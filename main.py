@@ -2,6 +2,7 @@ import os
 import sys
 from dotenv import load_dotenv
 from google import genai
+from google.genai import types
 
 # Checking for argument passed in for the prompt
 if len(sys.argv) < 1:
@@ -15,13 +16,19 @@ def main():
 
     client = genai.Client(api_key=api_key)
     
-    prompt_contents = sys.argv[1]
+    user_prompt = sys.argv[1]
+      
+    # ROLES 
+    messages = [
+        types.Content(role="user", parts=[types.Part(text=user_prompt)]),
+    ]
 
     response = client.models.generate_content(
         model="gemini-2.0-flash-001",
-        contents=prompt_contents
+        contents=messages
     )
 
+    
     print(response.text)
     
     print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
