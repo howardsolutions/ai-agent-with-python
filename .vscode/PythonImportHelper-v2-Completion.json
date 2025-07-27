@@ -44,6 +44,39 @@
         "documentation": {}
     },
     {
+        "label": "Calculator",
+        "importPath": "pkg.calculator",
+        "description": "pkg.calculator",
+        "isExtraImport": true,
+        "detail": "pkg.calculator",
+        "documentation": {}
+    },
+    {
+        "label": "Calculator",
+        "importPath": "pkg.calculator",
+        "description": "pkg.calculator",
+        "isExtraImport": true,
+        "detail": "pkg.calculator",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "pkg.render",
+        "description": "pkg.render",
+        "isExtraImport": true,
+        "detail": "pkg.render",
+        "documentation": {}
+    },
+    {
+        "label": "unittest",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "unittest",
+        "description": "unittest",
+        "detail": "unittest",
+        "documentation": {}
+    },
+    {
         "label": "load_dotenv",
         "importPath": "dotenv",
         "description": "dotenv",
@@ -146,6 +179,42 @@
         "description": ".venv.bin.activate_this",
         "peekOfCode": "sys.prefix = base",
         "detail": ".venv.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "Calculator",
+        "kind": 6,
+        "importPath": "calculator.pkg.calculator",
+        "description": "calculator.pkg.calculator",
+        "peekOfCode": "class Calculator:\n    def __init__(self):\n        self.operators = {\n            \"+\": lambda a, b: a + b,\n            \"-\": lambda a, b: a - b,\n            \"*\": lambda a, b: a * b,\n            \"/\": lambda a, b: a / b,\n        }\n        self.precedence = {\n            \"+\": 1,",
+        "detail": "calculator.pkg.calculator",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "kind": 2,
+        "importPath": "calculator.pkg.render",
+        "description": "calculator.pkg.render",
+        "peekOfCode": "def render(expression, result):\n    if isinstance(result, float) and result.is_integer():\n        result_str = str(int(result))\n    else:\n        result_str = str(result)\n    box_width = max(len(expression), len(result_str)) + 4\n    box = []\n    box.append(\"┌\" + \"─\" * box_width + \"┐\")\n    box.append(\n        \"│\" + \" \" * 2 + expression + \" \" * (box_width - len(expression) - 2) + \"│\"",
+        "detail": "calculator.pkg.render",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "calculator.main",
+        "description": "calculator.main",
+        "peekOfCode": "def main():\n    calculator = Calculator()\n    if len(sys.argv) <= 1:\n        print(\"Calculator App\")\n        print('Usage: python main.py \"<expression>\"')\n        print('Example: python main.py \"3 + 5\"')\n        return\n    expression = \" \".join(sys.argv[1:])\n    try:\n        result = calculator.evaluate(expression)",
+        "detail": "calculator.main",
+        "documentation": {}
+    },
+    {
+        "label": "TestCalculator",
+        "kind": 6,
+        "importPath": "calculator.tests",
+        "description": "calculator.tests",
+        "peekOfCode": "class TestCalculator(unittest.TestCase):\n    def setUp(self):\n        self.calculator = Calculator()\n    def test_addition(self):\n        result = self.calculator.evaluate(\"3 + 5\")\n        self.assertEqual(result, 8)\n    def test_subtraction(self):\n        result = self.calculator.evaluate(\"10 - 4\")\n        self.assertEqual(result, 6)\n    def test_multiplication(self):",
+        "detail": "calculator.tests",
         "documentation": {}
     },
     {
