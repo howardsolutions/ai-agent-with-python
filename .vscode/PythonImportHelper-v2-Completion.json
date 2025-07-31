@@ -355,7 +355,7 @@
         "kind": 6,
         "importPath": "calculator.pkg.calculator",
         "description": "calculator.pkg.calculator",
-        "peekOfCode": "class Calculator:\n    def __init__(self):\n        self.operators = {\n            \"+\": lambda a, b: a + b,\n            \"-\": lambda a, b: a - b,\n            \"*\": lambda a, b: a * b,\n            \"/\": lambda a, b: a / b,\n        }\n        self.precedence = {\n            \"+\": 3,",
+        "peekOfCode": "class Calculator:\n    def __init__(self):\n        self.operators = {\n            \"+\": lambda a, b: a + b,\n            \"-\": lambda a, b: a - b,\n            \"*\": lambda a, b: a * b,\n            \"/\": lambda a, b: a / b,\n        }\n        self.precedence = {\n            \"+\": 2,",
         "detail": "calculator.pkg.calculator",
         "documentation": {}
     },
