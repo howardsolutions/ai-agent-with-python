@@ -355,7 +355,7 @@
         "kind": 6,
         "importPath": "calculator.pkg.calculator",
         "description": "calculator.pkg.calculator",
-        "peekOfCode": "class Calculator:\n    def __init__(self):\n        self.operators = {\n            \"+\": lambda a, b: a + b,\n            \"-\": lambda a, b: a - b,\n            \"*\": lambda a, b: a * b,\n            \"/\": lambda a, b: a / b,\n        }\n        self.precedence = {\n            \"+\": 1,",
+        "peekOfCode": "class Calculator:\n    def __init__(self):\n        self.operators = {\n            \"+\": lambda a, b: a + b,\n            \"-\": lambda a, b: a - b,\n            \"*\": lambda a, b: a * b,\n            \"/\": lambda a, b: a / b,\n        }\n        self.precedence = {\n            \"+\": 3,",
         "detail": "calculator.pkg.calculator",
         "documentation": {}
     },
@@ -468,20 +468,11 @@
         "documentation": {}
     },
     {
-        "label": "create_function_mapping",
+        "label": "call_function",
         "kind": 2,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "def create_function_mapping(working_directory: str) -> Dict[str, Callable]:\n    \"\"\"Create a mapping of function names to their execution functions.\"\"\"\n    return {\n        \"get_files_info\": lambda args: get_files_info(working_directory, args.get(\"directory\", \".\")),\n        \"get_file_content\": lambda args: get_file_content(working_directory, args.get(\"file_path\")),\n        \"run_python_file\": lambda args: run_python_file(working_directory, args.get(\"file_path\"), args.get(\"args\", [])),\n        \"write_file\": lambda args: write_file(working_directory, args.get(\"file_path\"), args.get(\"content\")),\n    }\ndef execute_function_call(function_name: str, function_args: Dict[str, Any], working_directory: str) -> str:\n    \"\"\"Execute a function call based on the function name and arguments.\"\"\"",
-        "detail": "main",
-        "documentation": {}
-    },
-    {
-        "label": "execute_function_call",
-        "kind": 2,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "def execute_function_call(function_name: str, function_args: Dict[str, Any], working_directory: str) -> str:\n    \"\"\"Execute a function call based on the function name and arguments.\"\"\"\n    function_mapping = create_function_mapping(working_directory)\n    if function_name not in function_mapping:\n        return f\"Error: Unknown function {function_name}\"\n    try:\n        return function_mapping[function_name](function_args)\n    except Exception as e:\n        return f\"Error executing function: {str(e)}\"\ndef main():",
+        "peekOfCode": "def call_function(function_call_part, verbose=False):\n    \"\"\"Handle the abstract task of calling one of our four functions.\"\"\"\n    function_name = function_call_part.name\n    function_args = function_call_part.args\n    if verbose:\n        print(f\"Calling function: {function_call_part.name}({function_call_part.args})\")\n    else:\n        print(f\"Calling function: {function_call_part.name}\")\n    # Add working_directory to the arguments\n    function_args[\"working_directory\"] = \"./calculator\"",
         "detail": "main",
         "documentation": {}
     },
@@ -490,7 +481,7 @@
         "kind": 2,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "def main():\n    load_dotenv()\n    api_key = os.environ.get(\"GEMINI_API_KEY\")\n    client = genai.Client(api_key=api_key)\n    # Get current working directory for security\n    working_directory = os.getcwd()\n    user_prompt = sys.argv[1]\n    # ROLES \n    messages = [\n        types.Content(role=\"user\", parts=[types.Part(text=user_prompt)]),",
+        "peekOfCode": "def main():\n    load_dotenv()\n    api_key = os.environ.get(\"GEMINI_API_KEY\")\n    client = genai.Client(api_key=api_key)\n    # Parse command line arguments\n    args = sys.argv[1:]\n    verbose = \"--verbose\" in args\n    user_prompt = args[0] if args[0] != \"--verbose\" else args[1]\n    # Initialize messages list with user prompt\n    messages = [",
         "detail": "main",
         "documentation": {}
     }

@@ -11,30 +11,67 @@ from functions.run_python import schema_run_python_file, run_python_file
 from functions.write_file import schema_write_file, write_file
 
 # Checking for argument passed in for the prompt
-if len(sys.argv) < 1:
-    print("No argument passed.")
+if len(sys.argv) < 2:
+    print("Usage: python main.py <prompt> [--verbose]")
     sys.exit(1)
 
-def create_function_mapping(working_directory: str) -> Dict[str, Callable]:
-    """Create a mapping of function names to their execution functions."""
-    return {
-        "get_files_info": lambda args: get_files_info(working_directory, args.get("directory", ".")),
-        "get_file_content": lambda args: get_file_content(working_directory, args.get("file_path")),
-        "run_python_file": lambda args: run_python_file(working_directory, args.get("file_path"), args.get("args", [])),
-        "write_file": lambda args: write_file(working_directory, args.get("file_path"), args.get("content")),
+def call_function(function_call_part, verbose=False):
+    """Handle the abstract task of calling one of our four functions."""
+    function_name = function_call_part.name
+    function_args = function_call_part.args
+    
+    if verbose:
+        print(f"Calling function: {function_call_part.name}({function_call_part.args})")
+    else:
+        print(f"Calling function: {function_call_part.name}")
+    
+    # Add working_directory to the arguments
+    function_args["working_directory"] = "./calculator"
+    
+    # Dictionary mapping function names to their actual functions
+    function_mapping = {
+        "get_files_info": get_files_info,
+        "get_file_content": get_file_content,
+        "run_python_file": run_python_file,
+        "write_file": write_file,
     }
-
-def execute_function_call(function_name: str, function_args: Dict[str, Any], working_directory: str) -> str:
-    """Execute a function call based on the function name and arguments."""
-    function_mapping = create_function_mapping(working_directory)
     
+    # Check if function name is valid
     if function_name not in function_mapping:
-        return f"Error: Unknown function {function_name}"
+        return types.Content(
+            role="tool",
+            parts=[
+                types.Part.from_function_response(
+                    name=function_name,
+                    response={"error": f"Unknown function: {function_name}"},
+                )
+            ],
+        )
     
+    # Call the function with keyword arguments
     try:
-        return function_mapping[function_name](function_args)
+        function_result = function_mapping[function_name](**function_args)
+        
+        # Return types.Content with from_function_response describing the result
+        return types.Content(
+            role="tool",
+            parts=[
+                types.Part.from_function_response(
+                    name=function_name,
+                    response={"result": function_result},
+                )
+            ],
+        )
     except Exception as e:
-        return f"Error executing function: {str(e)}"
+        return types.Content(
+            role="tool",
+            parts=[
+                types.Part.from_function_response(
+                    name=function_name,
+                    response={"error": f"Error executing function: {str(e)}"},
+                )
+            ],
+        )
 
 def main():
     load_dotenv()
@@ -43,12 +80,12 @@ def main():
 
     client = genai.Client(api_key=api_key)
     
-    # Get current working directory for security
-    working_directory = os.getcwd()
-    
-    user_prompt = sys.argv[1]
+    # Parse command line arguments
+    args = sys.argv[1:]
+    verbose = "--verbose" in args
+    user_prompt = args[0] if args[0] != "--verbose" else args[1]
       
-    # ROLES 
+    # Initialize messages list with user prompt
     messages = [
         types.Content(role="user", parts=[types.Part(text=user_prompt)]),
     ]
@@ -56,12 +93,15 @@ def main():
     system_prompt = """
         You are a helpful AI coding agent.
 
-        When a user asks a question or makes a request, make a function call plan. You can perform the following operations:
+        When a user asks a question or makes a request, you MUST use the available functions to gather information and answer the question. Do not try to answer based on general knowledge alone.
 
-        - List files and directories
-        - Read file contents
-        - Execute Python files with optional arguments
-        - Write or overwrite files
+        You can perform the following operations:
+        - List files and directories using get_files_info
+        - Read file contents using get_file_content
+        - Execute Python files with optional arguments using run_python_file
+        - Write or overwrite files using write_file
+
+        IMPORTANT: Always use the appropriate functions to explore the codebase and gather information before providing your final answer.
 
         All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons.
         """
@@ -76,24 +116,67 @@ def main():
         ]
     )
 
-    generate_content = client.models.generate_content(
-        model="gemini-2.0-flash-001",
-        contents=messages,
-        config=types.GenerateContentConfig(tools=[available_functions], system_instruction=system_prompt)
-    )
+    # Main agent loop - limit to 20 iterations to prevent infinite loops
+    max_iterations = 20
+    for iteration in range(max_iterations):
+        try:
+            # Generate content with the entire messages list
+            generate_content = client.models.generate_content(
+                model="gemini-2.0-flash-001",
+                contents=messages,
+                config=types.GenerateContentConfig(tools=[available_functions], system_instruction=system_prompt)
+            )
+            
+            if verbose:
+                print(f"Iteration {iteration + 1}: Generated response")
+            
+            # Add the candidate response to messages
+            for candidate in generate_content.candidates:
+                messages.append(candidate.content)
+            
+            # Check if this is a final response (no function call)
+            has_function_call = False
+            for part in generate_content.candidates[0].content.parts:
+                if hasattr(part, 'function_call') and part.function_call:
+                    has_function_call = True
+                    break
+            
+            if not has_function_call:
+                # This is the final response, print it and break
+                if verbose:
+                    print("No function call detected - final response")
+                print(generate_content.text)
+                break
+            
+            # Handle function call
+            function_call_part = None
+            for part in generate_content.candidates[0].content.parts:
+                if hasattr(part, 'function_call') and part.function_call:
+                    function_call_part = part.function_call
+                    break
+            
+            if function_call_part:
+                # Use call_function to execute the function
+                function_call_result = call_function(function_call_part, verbose=verbose)
+            
+                # Verify the response structure
+                if not hasattr(function_call_result.parts[0], 'function_response') or not hasattr(function_call_result.parts[0].function_response, 'response'):
+                    raise Exception("Invalid function call result structure")
+                
+                # Print the result if verbose is set
+                if verbose:
+                    print(f"-> {function_call_result.parts[0].function_response.response}")
+                
+                # Add the function response to messages
+                messages.append(function_call_result)
+            
+        except Exception as e:
+            print(f"Error in iteration {iteration + 1}: {str(e)}")
+            break
     
-    # Check for function calls and execute them
-    if generate_content.candidates[0].content.parts[0].function_call:
-        function_call_part = generate_content.candidates[0].content.parts[0].function_call
-        function_name = function_call_part.name
-        function_args = function_call_part.args
-        
-        print(f"Calling function: {function_name}({function_args})")
-        
-        result = execute_function_call(function_name, function_args, working_directory)
-        print(f"Function result: {result}")
-    else:
-        print(generate_content.text)
+    # Check if we hit the iteration limit
+    if iteration == max_iterations - 1:
+        print(f"Warning: Reached maximum iterations ({max_iterations})")
     
     print(f"User prompt: {user_prompt}")
     print(f"Prompt tokens: {generate_content.usage_metadata.prompt_token_count}")
