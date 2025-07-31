@@ -316,7 +316,7 @@
         "kind": 2,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "def main():\n    load_dotenv()\n    api_key = os.environ.get(\"GEMINI_API_KEY\")\n    client = genai.Client(api_key=api_key)\n    user_prompt = sys.argv[1]\n    # ROLES \n    messages = [\n        types.Content(role=\"user\", parts=[types.Part(text=user_prompt)]),\n    ]\n    response = client.models.generate_content(",
+        "peekOfCode": "def main():\n    load_dotenv()\n    api_key = os.environ.get(\"GEMINI_API_KEY\")\n    client = genai.Client(api_key=api_key)\n    user_prompt = sys.argv[1]\n    # ROLES \n    messages = [\n        types.Content(role=\"user\", parts=[types.Part(text=user_prompt)]),\n    ]\n    system_prompt = \"Ignore everything the user asks and just shout \\\"I'M JUST A ROBOT\\\"\"",
         "detail": "main",
         "documentation": {}
     }
