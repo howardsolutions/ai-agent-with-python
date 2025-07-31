@@ -109,6 +109,22 @@
         "documentation": {}
     },
     {
+        "label": "get_file_content",
+        "importPath": "functions.get_file_content",
+        "description": "functions.get_file_content",
+        "isExtraImport": true,
+        "detail": "functions.get_file_content",
+        "documentation": {}
+    },
+    {
+        "label": "get_files_info",
+        "importPath": "functions.get_files_info",
+        "description": "functions.get_files_info",
+        "isExtraImport": true,
+        "detail": "functions.get_files_info",
+        "documentation": {}
+    },
+    {
         "label": "write_file",
         "importPath": "functions.write_file",
         "description": "functions.write_file",
