@@ -39,3 +39,5 @@ The system prompt sets the tone for the conversation, and can be used to:
 4. It describes which function it wants to call, and what arguments to pass to it
 5. We call that function with the arguments it provided
 6. We return the result to the LLM
+
+- types.FunctionDeclaration : uses to  build the "declaration" or "schema" for a function. just tells the LLM how to use the function.

@@ -85,6 +85,22 @@
         "documentation": {}
     },
     {
+        "label": "types",
+        "importPath": "google.genai",
+        "description": "google.genai",
+        "isExtraImport": true,
+        "detail": "google.genai",
+        "documentation": {}
+    },
+    {
+        "label": "types",
+        "importPath": "google.genai",
+        "description": "google.genai",
+        "isExtraImport": true,
+        "detail": "google.genai",
+        "documentation": {}
+    },
+    {
         "label": "subprocess",
         "kind": 6,
         "isExtraImport": true,
@@ -110,19 +126,11 @@
         "documentation": {}
     },
     {
-        "label": "types",
-        "importPath": "google.genai",
-        "description": "google.genai",
+        "label": "schema_get_files_info",
+        "importPath": "functions.get_files_info",
+        "description": "functions.get_files_info",
         "isExtraImport": true,
-        "detail": "google.genai",
-        "documentation": {}
-    },
-    {
-        "label": "get_file_content",
-        "importPath": "functions.get_file_content",
-        "description": "functions.get_file_content",
-        "isExtraImport": true,
-        "detail": "functions.get_file_content",
+        "detail": "functions.get_files_info",
         "documentation": {}
     },
     {
@@ -131,6 +139,14 @@
         "description": "functions.get_files_info",
         "isExtraImport": true,
         "detail": "functions.get_files_info",
+        "documentation": {}
+    },
+    {
+        "label": "get_file_content",
+        "importPath": "functions.get_file_content",
+        "description": "functions.get_file_content",
+        "isExtraImport": true,
+        "detail": "functions.get_file_content",
         "documentation": {}
     },
     {
@@ -285,6 +301,15 @@
         "documentation": {}
     },
     {
+        "label": "schema_get_files_info",
+        "kind": 5,
+        "importPath": "functions.get_files_info",
+        "description": "functions.get_files_info",
+        "peekOfCode": "schema_get_files_info = types.FunctionDeclaration(\n    name=\"get_files_info\",\n    description=\"Lists files in the specified directory along with their sizes, constrained to the working directory.\",\n    parameters=types.Schema(\n        type=types.Type.OBJECT,\n        properties={\n            \"directory\": types.Schema(\n                type=types.Type.STRING,\n                description=\"The directory to list files from, relative to the working directory. If not provided, lists files in the working directory itself.\",\n            ),",
+        "detail": "functions.get_files_info",
+        "documentation": {}
+    },
+    {
         "label": "run_python_file",
         "kind": 2,
         "importPath": "functions.run_python",
@@ -316,7 +341,7 @@
         "kind": 2,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "def main():\n    load_dotenv()\n    api_key = os.environ.get(\"GEMINI_API_KEY\")\n    client = genai.Client(api_key=api_key)\n    user_prompt = sys.argv[1]\n    # ROLES \n    messages = [\n        types.Content(role=\"user\", parts=[types.Part(text=user_prompt)]),\n    ]\n    system_prompt = \"Ignore everything the user asks and just shout \\\"I'M JUST A ROBOT\\\"\"",
+        "peekOfCode": "def main():\n    load_dotenv()\n    api_key = os.environ.get(\"GEMINI_API_KEY\")\n    client = genai.Client(api_key=api_key)\n    user_prompt = sys.argv[1]\n    # ROLES \n    messages = [\n        types.Content(role=\"user\", parts=[types.Part(text=user_prompt)]),\n    ]\n    system_prompt = \"\"\"",
         "detail": "main",
         "documentation": {}
     }
