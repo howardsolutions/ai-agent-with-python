@@ -101,12 +101,60 @@
         "documentation": {}
     },
     {
+        "label": "types",
+        "importPath": "google.genai",
+        "description": "google.genai",
+        "isExtraImport": true,
+        "detail": "google.genai",
+        "documentation": {}
+    },
+    {
+        "label": "types",
+        "importPath": "google.genai",
+        "description": "google.genai",
+        "isExtraImport": true,
+        "detail": "google.genai",
+        "documentation": {}
+    },
+    {
+        "label": "types",
+        "importPath": "google.genai",
+        "description": "google.genai",
+        "isExtraImport": true,
+        "detail": "google.genai",
+        "documentation": {}
+    },
+    {
         "label": "subprocess",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "subprocess",
         "description": "subprocess",
         "detail": "subprocess",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Callable",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
         "documentation": {}
     },
     {
@@ -142,11 +190,67 @@
         "documentation": {}
     },
     {
+        "label": "get_files_info",
+        "importPath": "functions.get_files_info",
+        "description": "functions.get_files_info",
+        "isExtraImport": true,
+        "detail": "functions.get_files_info",
+        "documentation": {}
+    },
+    {
+        "label": "schema_get_file_content",
+        "importPath": "functions.get_file_content",
+        "description": "functions.get_file_content",
+        "isExtraImport": true,
+        "detail": "functions.get_file_content",
+        "documentation": {}
+    },
+    {
         "label": "get_file_content",
         "importPath": "functions.get_file_content",
         "description": "functions.get_file_content",
         "isExtraImport": true,
         "detail": "functions.get_file_content",
+        "documentation": {}
+    },
+    {
+        "label": "get_file_content",
+        "importPath": "functions.get_file_content",
+        "description": "functions.get_file_content",
+        "isExtraImport": true,
+        "detail": "functions.get_file_content",
+        "documentation": {}
+    },
+    {
+        "label": "schema_run_python_file",
+        "importPath": "functions.run_python",
+        "description": "functions.run_python",
+        "isExtraImport": true,
+        "detail": "functions.run_python",
+        "documentation": {}
+    },
+    {
+        "label": "run_python_file",
+        "importPath": "functions.run_python",
+        "description": "functions.run_python",
+        "isExtraImport": true,
+        "detail": "functions.run_python",
+        "documentation": {}
+    },
+    {
+        "label": "run_python_file",
+        "importPath": "functions.run_python",
+        "description": "functions.run_python",
+        "isExtraImport": true,
+        "detail": "functions.run_python",
+        "documentation": {}
+    },
+    {
+        "label": "schema_write_file",
+        "importPath": "functions.write_file",
+        "description": "functions.write_file",
+        "isExtraImport": true,
+        "detail": "functions.write_file",
         "documentation": {}
     },
     {
@@ -158,11 +262,11 @@
         "documentation": {}
     },
     {
-        "label": "run_python_file",
-        "importPath": "functions.run_python",
-        "description": "functions.run_python",
+        "label": "write_file",
+        "importPath": "functions.write_file",
+        "description": "functions.write_file",
         "isExtraImport": true,
-        "detail": "functions.run_python",
+        "detail": "functions.write_file",
         "documentation": {}
     },
     {
@@ -292,6 +396,15 @@
         "documentation": {}
     },
     {
+        "label": "schema_get_file_content",
+        "kind": 5,
+        "importPath": "functions.get_file_content",
+        "description": "functions.get_file_content",
+        "peekOfCode": "schema_get_file_content = types.FunctionDeclaration(\n    name=\"get_file_content\",\n    description=\"Reads the contents of a file, constrained to the working directory.\",\n    parameters=types.Schema(\n        type=types.Type.OBJECT,\n        properties={\n            \"file_path\": types.Schema(\n                type=types.Type.STRING,\n                description=\"The path to the file to read, relative to the working directory.\"\n            ),",
+        "detail": "functions.get_file_content",
+        "documentation": {}
+    },
+    {
         "label": "get_files_info",
         "kind": 2,
         "importPath": "functions.get_files_info",
@@ -319,11 +432,29 @@
         "documentation": {}
     },
     {
+        "label": "schema_run_python_file",
+        "kind": 5,
+        "importPath": "functions.run_python",
+        "description": "functions.run_python",
+        "peekOfCode": "schema_run_python_file = types.FunctionDeclaration(\n    name=\"run_python_file\",\n    description=\"Executes a Python file with optional arguments, constrained to the working directory.\",\n    parameters=types.Schema(\n        type=types.Type.OBJECT,\n        properties={\n            \"file_path\": types.Schema(\n                type=types.Type.STRING,\n                description=\"The path to the Python file to execute, relative to the working directory.\"\n            ),",
+        "detail": "functions.run_python",
+        "documentation": {}
+    },
+    {
         "label": "write_file",
         "kind": 2,
         "importPath": "functions.write_file",
         "description": "functions.write_file",
         "peekOfCode": "def write_file(working_directory, file_path, content):\n    try:\n        # Normalize paths\n        working_directory = os.path.abspath(working_directory)\n        file_path = os.path.abspath(os.path.join(working_directory, file_path))\n        # Validate boundary\n        if not file_path.startswith(working_directory):\n            return f'Error: Cannot write to \"{file_path}\" as it is outside the permitted working directory'\n        # Create directory if it doesn't exist\n        directory = os.path.dirname(file_path)",
+        "detail": "functions.write_file",
+        "documentation": {}
+    },
+    {
+        "label": "schema_write_file",
+        "kind": 5,
+        "importPath": "functions.write_file",
+        "description": "functions.write_file",
+        "peekOfCode": "schema_write_file = types.FunctionDeclaration(\n    name=\"write_file\",\n    description=\"Writes or overwrites a file with the given content, constrained to the working directory.\",\n    parameters=types.Schema(\n        type=types.Type.OBJECT,\n        properties={\n            \"file_path\": types.Schema(\n                type=types.Type.STRING,\n                description=\"The path to the file to write, relative to the working directory.\"\n            ),",
         "detail": "functions.write_file",
         "documentation": {}
     },
@@ -337,11 +468,29 @@
         "documentation": {}
     },
     {
+        "label": "create_function_mapping",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def create_function_mapping(working_directory: str) -> Dict[str, Callable]:\n    \"\"\"Create a mapping of function names to their execution functions.\"\"\"\n    return {\n        \"get_files_info\": lambda args: get_files_info(working_directory, args.get(\"directory\", \".\")),\n        \"get_file_content\": lambda args: get_file_content(working_directory, args.get(\"file_path\")),\n        \"run_python_file\": lambda args: run_python_file(working_directory, args.get(\"file_path\"), args.get(\"args\", [])),\n        \"write_file\": lambda args: write_file(working_directory, args.get(\"file_path\"), args.get(\"content\")),\n    }\ndef execute_function_call(function_name: str, function_args: Dict[str, Any], working_directory: str) -> str:\n    \"\"\"Execute a function call based on the function name and arguments.\"\"\"",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "execute_function_call",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def execute_function_call(function_name: str, function_args: Dict[str, Any], working_directory: str) -> str:\n    \"\"\"Execute a function call based on the function name and arguments.\"\"\"\n    function_mapping = create_function_mapping(working_directory)\n    if function_name not in function_mapping:\n        return f\"Error: Unknown function {function_name}\"\n    try:\n        return function_mapping[function_name](function_args)\n    except Exception as e:\n        return f\"Error executing function: {str(e)}\"\ndef main():",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
         "label": "main",
         "kind": 2,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "def main():\n    load_dotenv()\n    api_key = os.environ.get(\"GEMINI_API_KEY\")\n    client = genai.Client(api_key=api_key)\n    user_prompt = sys.argv[1]\n    # ROLES \n    messages = [\n        types.Content(role=\"user\", parts=[types.Part(text=user_prompt)]),\n    ]\n    system_prompt = \"\"\"",
+        "peekOfCode": "def main():\n    load_dotenv()\n    api_key = os.environ.get(\"GEMINI_API_KEY\")\n    client = genai.Client(api_key=api_key)\n    # Get current working directory for security\n    working_directory = os.getcwd()\n    user_prompt = sys.argv[1]\n    # ROLES \n    messages = [\n        types.Content(role=\"user\", parts=[types.Part(text=user_prompt)]),",
         "detail": "main",
         "documentation": {}
     }
