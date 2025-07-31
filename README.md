@@ -30,3 +30,12 @@ The system prompt sets the tone for the conversation, and can be used to:
 * Give instructions on how to behave
 * Provide context for the conversation
 * Set the "rules" for the conversation (in theory, LLMs still hallucinate and screw up, and users are often able to "get around" the rules if they try hard enough)
+
+# Function Declaration
+
+1. We're using the LLM as a decision-making engine, but we're still the ones running the code.
+2. We tell the LLM which functions are available to it
+3. We give it a prompt
+4. It describes which function it wants to call, and what arguments to pass to it
+5. We call that function with the arguments it provided
+6. We return the result to the LLM
